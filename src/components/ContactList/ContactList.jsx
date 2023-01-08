@@ -1,27 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export class ContactList extends Component {
-  state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-  };
-  render() {
-    const { contacts } = this.state;
-    return (
-      <div contacts={contacts}>
-        {contacts.map(({ id, name, number }) => (
-          <ul key={id}>
-            {' '}
-            <li>
-              {name}: {number}
-            </li>
-          </ul>
-        ))}
-      </div>
-    );
-  }
-}
+export const ContactList = ({ contacts, onDeleteContact }) => (
+  <div>
+    {contacts.map(({ id, name, number }) => (
+      <ul key={id}>
+        {' '}
+        <li>
+          {name}: {number}{' '}
+          <button type="button" onClick={() => onDeleteContact(id)}>
+            Delete
+          </button>
+        </li>
+      </ul>
+    ))}
+  </div>
+);
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+  onDeleteContact: PropTypes.func.isRequired,
+};
